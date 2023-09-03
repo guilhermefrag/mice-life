@@ -19,10 +19,10 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
 
     const handleLogin = async (user: UserLogin) => {
         setUser(user);
-        const response = await axios.post(
-            'http://localhost:8000/api/login',
-            user
-        );
+        // const response = await axios.post(
+        //     'http://localhost:8000/api/login',
+        //     user
+        // );
         const token = 'X';
         localStorage.setItem('@token', token);
         setAuthToken(token);
