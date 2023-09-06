@@ -1,4 +1,5 @@
 import { TextField, Button } from '@mui/material';
+import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -6,13 +7,30 @@ type UserLogin = {
     username: string;
     password: string;
 };
-export default function LoginScreen() {
-    const [user, setUser] = useState<UserLogin>({
-        username: '',
-        password: ''
-    });
+
+type LoginScreenProps = {
+    setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
+    const [user, setUser] = useState<UserLogin | null>(null);
 
     const { register, handleSubmit } = useForm<UserLogin>();
+
+    const handleLogin = async (user: UserLogin) => {
+        setUser(user);
+        // const response = await axios.post(
+        //     'http://localhost:8000/api/login',
+        //     user
+        // );
+        if (user.username === 'admin' && user.password === 'admin') {
+            const token = 'X';
+            localStorage.setItem('@token', token);
+            setAuthToken(token);
+            axios.defaults.headers.common['Authorization'] = token;
+        }
+        
+    };
 
     return (
         <div>
@@ -27,7 +45,12 @@ export default function LoginScreen() {
                     variant="outlined"
                     {...register('password')}
                 />
-                <Button variant="contained" type="submit" size="large" onClick={handleSubmit((user) => setUser(user))}>
+                <Button
+                    variant="contained"
+                    type="submit"
+                    size="large"
+                    onClick={handleSubmit((user) => handleLogin(user))}
+                >
                     Contained
                 </Button>
             </form>
