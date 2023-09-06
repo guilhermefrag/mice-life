@@ -23,10 +23,13 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
         //     'http://localhost:8000/api/login',
         //     user
         // );
-        const token = 'X';
-        localStorage.setItem('@token', token);
-        setAuthToken(token);
-        axios.defaults.headers.common['Authorization'] = token;
+        if (user.username === 'admin' && user.password === 'admin') {
+            const token = 'X';
+            localStorage.setItem('@token', token);
+            setAuthToken(token);
+            axios.defaults.headers.common['Authorization'] = token;
+        }
+        
     };
 
     return (
