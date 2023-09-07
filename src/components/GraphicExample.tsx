@@ -56,7 +56,7 @@ export const data = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function GraphicExample() {
-    return <Bar options={options} data={data} style={styles.graphic} />;
+    return <Bar options={options} data={data}/>;
 }
 
 const styles = {
