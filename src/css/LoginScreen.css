@@ -1,0 +1,31 @@
+body{
+    margin: 0;
+    height: 100vh;
+}
+
+.img-logo{
+    max-width: 190px;
+    margin-bottom: 15px;
+}
+
+.container-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #b9b9b9f7;
+    height: 100vh;
+}
+.formulario-login{
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    width: 400px;
+    padding: 30px 0;
+    background-color: #FFF;
+    border-radius: 8px;
+    align-items: center;
+}
+
+.input-text{
+    width: 80%;
+}
