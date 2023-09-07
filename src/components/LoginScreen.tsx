@@ -33,25 +33,33 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
     };
 
     return (
-        <div>
-            <form action="">
+        <div className='container-form'>
+            <form action="" className="formulario-login">
+                <img 
+                src='../../img/rato2.jpg' 
+                className='img-logo'
+                />
                 <TextField
                     label="Username"
                     variant="outlined"
+                    className='input-text'
                     {...register('username')}
                 />
                 <TextField
                     label="Password"
                     variant="outlined"
+                    type='password'
+                    className='input-text'
                     {...register('password')}
                 />
                 <Button
                     variant="contained"
                     type="submit"
+                    style={{background:'#b9b9b9f7'}}
                     size="large"
                     onClick={handleSubmit((user) => handleLogin(user))}
                 >
-                    Contained
+                    Login
                 </Button>
             </form>
         </div>
