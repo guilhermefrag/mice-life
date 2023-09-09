@@ -1,13 +1,14 @@
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Alert, AlertTitle } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 import axios from 'axios';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import '../css/LoginScreen.css'
+import '../css/LoginScreen.css';
 
-import Rato from '../img/rato2.jpg'
+import Rato from '../img/rato2.jpg';
 
 type UserLogin = {
-    username: string;
+    userName: string;
     password: string;
 };
 
@@ -16,53 +17,67 @@ type LoginScreenProps = {
 };
 
 export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
-    const [user, setUser] = useState<UserLogin | null>(null);
-
     const { register, handleSubmit } = useForm<UserLogin>();
+    const [errorUserName, setErrorUserName] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
 
     const handleLogin = async (user: UserLogin) => {
-        setUser(user);
-        // const response = await axios.post(
-        //     'http://localhost:8000/api/login',
-        //     user
-        // );
-        if (user.username === 'admin' && user.password === 'admin') {
-            const token = 'X';
+        try {
+            if (!user.userName.length) {
+                setErrorUserName(true);
+                return;
+            }
+            setErrorUserName(false);
+
+            if (!user.password.length) {
+                setErrorPassword(true);
+                return;
+            }
+            setErrorPassword(false);
+
+            const response = await axios.post(`Auth`, user);
+  
+            const token = response.data.token.token;
+
             localStorage.setItem('@token', token);
+
             setAuthToken(token);
-            axios.defaults.headers.common['Authorization'] = token;
+
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } catch (error) {
+         
+            alert('Usuário ou senha inválidos!');
         }
-        
     };
 
     return (
-        <div className='container-form'>
+        <div className="container-form">
             <form action="" className="formulario-login">
-                <img 
-                src={Rato} 
-                className='img-logo'
-                />
+                <img src={Rato} className="img-logo" />
                 <TextField
                     label="Username"
                     variant="outlined"
-                    className='input-text'
-                    {...register('username')}
+                    error={errorUserName}
+                    className="input-text"
+                    {...register('userName')}
                 />
                 <TextField
                     label="Password"
                     variant="outlined"
-                    type='password'
-                    className='input-text'
+                    error={errorPassword}
+                    type="password"
+                    className="input-text"
                     {...register('password')}
                 />
                 <Button
                     variant="contained"
                     type="submit"
-                    style={{background:'#b9b9b9f7'}}
+                    style={{ background: '#b9b9b9f7' }}
                     size="large"
+                    endIcon={<LoginIcon />}
                     onClick={handleSubmit((user) => handleLogin(user))}
                 >
-                    Login
+                    Entrar
                 </Button>
             </form>
         </div>
