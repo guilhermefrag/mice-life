@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
 import LoginScreen from './components/LoginScreen';
 import GraphicExample from './components/GraphicExample';
@@ -19,7 +20,12 @@ function App() {
         );
     }
 
-    return <GraphicExample />;
+    return (
+        <>
+            <GraphicExample />
+            
+        </>
+    );
 }
 
 export default App;

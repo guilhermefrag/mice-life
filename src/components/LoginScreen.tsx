@@ -7,6 +7,8 @@ import '../css/LoginScreen.css';
 
 import Rato from '../img/rato2.jpg';
 
+import toast, {Toaster} from 'react-hot-toast';
+
 type UserLogin = {
     userName: string;
     password: string;
@@ -36,7 +38,7 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
             setErrorPassword(false);
 
             const response = await axios.post(`Auth`, user);
-  
+
             const token = response.data.token.token;
 
             localStorage.setItem('@token', token);
@@ -45,8 +47,7 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
 
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         } catch (error) {
-         
-            alert('Usuário ou senha inválidos!');
+            toast.error('Usuário ou senha inválidos!');
         }
     };
 
@@ -80,6 +81,7 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
                     Entrar
                 </Button>
             </form>
+            <Toaster />
         </div>
     );
 }
