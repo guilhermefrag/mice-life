@@ -2,8 +2,9 @@ import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import './App.css';
 import LoginScreen from './components/LoginScreen';
-import GraphicExample from './components/GraphicExample';
 import axios from 'axios';
+import Router from './Router';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
     const [authToken, setAuthToken] = useState(localStorage.getItem('@token'));
@@ -21,10 +22,9 @@ function App() {
     }
 
     return (
-        <>
-            <GraphicExample />
-            
-        </>
+        <BrowserRouter>
+            <Router />
+        </BrowserRouter>
     );
 }
 

@@ -7,7 +7,7 @@ import '../css/LoginScreen.css';
 
 import Rato from '../img/rato2.jpg';
 
-import toast, {Toaster} from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 type UserLogin = {
     userName: string;
@@ -40,6 +40,8 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
             const response = await axios.post(`Auth`, user);
 
             const token = response.data.token.token;
+
+            toast.success('Login efetuado com sucesso!');
 
             localStorage.setItem('@token', token);
 
