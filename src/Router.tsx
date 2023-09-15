@@ -6,6 +6,7 @@ export default function Router() {
     return (
         <Routes>
             <Route path="/" element={<GraphicExample />} />
+            <Route path="/cage" element={<Cage />} />
         </Routes>
     );
 }

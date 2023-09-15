@@ -1,3 +1,4 @@
+import axios from 'axios';
 import '../css/GraphicExample.css';
 import React from 'react';
 import {
@@ -56,11 +57,33 @@ const data = [
 ];
 
 export default function GraphicExample() {
+    let turnsData;
+    async function getData() {
+        turnsData = axios.get(`Turns`);
+        console.log((await turnsData).data);
+    }
+    getData();
+    const graphData = [
+        {
+            data: '0001-01-01T00:00:00',
+            distanciaPercorrida: 0,
+            gaiolaId: 1,
+            tempoAtividade: 0,
+            velocidadeMedia: 0
+        },
+        {
+            data: '2023-09-12T00:31:00',
+            distanciaPercorrida: 12.5,
+            gaiolaId: 1,
+            tempoAtividade: 120,
+            velocidadeMedia: 120
+        }
+    ];
     return (
         <LineChart
-            width={500}
-            height={400}
-            data={data}
+            width={700}
+            height={600}
+            data={graphData}
             margin={{
                 top: 5,
                 right: 30,
@@ -69,17 +92,17 @@ export default function GraphicExample() {
             }}
         >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+            <XAxis dataKey="distanciaPercorrida" />
+            <YAxis dataKey="velocidadeMedia" />
             <Tooltip />
             <Legend />
             <Line
                 type="monotone"
-                dataKey="pv"
+                dataKey="distanciaPercorrida"
                 stroke="#8884d8"
                 activeDot={{ r: 8 }}
             />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="velocidadeMedia" stroke="#82ca9d" />
         </LineChart>
     );
 }
