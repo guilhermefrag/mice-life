@@ -59,10 +59,17 @@ const data = [
 export default function GraphicExample() {
     let turnsData;
     async function getData() {
-        turnsData = axios.get(`Turns`);
-        console.log((await turnsData).data);
+        try {
+            const response = await axios.get('Turns');
+            turnsData = response.data;
+            console.log(turnsData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
+
     getData();
+    
     const graphData = [
         {
             data: '0001-01-01T00:00:00',
