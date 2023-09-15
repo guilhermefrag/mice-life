@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import {
@@ -18,14 +19,56 @@ interface CageWindoProps extends DialogProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+type Errors = {
+    error: boolean;
+    message: string;
+}
+
 const CageWindow = ({ open, setOpen }: CageWindoProps) => {
     const { register, handleSubmit, reset } = useForm<Cage>();
+    const [errorDescricao, setErrorDescricao] = React.useState<Errors>({
+        error: false,
+        message: ''
+    });
+    const [errorDiametro, setErrorDiametro] = React.useState<Errors>({
+        error: false,
+        message: ''
+    });
 
     const handleCreateCage = async (cage: Cage) => {
+        if (parseInt(cage.diametro.toString()) <= 0) {
+            setErrorDiametro({
+                error: true,
+                message: 'O diâmetro deve ser maior que zero!'
+            });
+            return;
+        }
+
+        setErrorDiametro({
+            error: false,
+            message: ''
+        });
+
+        if (!cage.descricao.length) {
+            setErrorDescricao({
+                error: true,
+                message: 'A descrição não pode ser vazia!'
+            });
+            return;
+        }
+
+        setErrorDescricao({
+            error: false,
+            message: ''
+        });
+
         try {
             const reponse = await axios.post('Cage', cage);
             toast.success('Gaiola cadastrada com sucesso!');
-            reset();
+            reset({
+                descricao: '',
+                diametro: 0
+            });
         } catch (error) {
             toast.error('Erro ao cadastrar gaiola!');
         }
@@ -33,7 +76,10 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
 
     const handleClose = () => {
         setOpen(false);
-        reset();
+        reset({
+            descricao: '',
+            diametro: 0
+        });
     };
 
     return (
@@ -45,6 +91,8 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
                     label="Descricao"
                     type="text"
                     fullWidth
+                    error={errorDescricao.error}
+                    helperText={errorDescricao.message}
                     margin="normal"
                     {...register('descricao')}
                 />
@@ -53,8 +101,10 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
                     label="Diâmetro (cm)"
                     type="number"
                     fullWidth
+                    error={errorDiametro.error}
+                    helperText={errorDiametro.message}
                     margin="normal"
-                    min="0"
+                    InputProps={{ inputProps: { min: 0 } }}
                     {...register('diametro')}
                 />
             </DialogContent>
