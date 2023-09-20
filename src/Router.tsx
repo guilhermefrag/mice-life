@@ -5,8 +5,8 @@ import GraphicExample from './components/GraphicExample';
 export default function Router() {
     return (
         <Routes>
-            <Route path="/" element={<GraphicExample />} />
-            <Route path="/cage" element={<Cage />} />
+            <Route path="/" element={<Cage />} />
+            <Route path="/graphic" element={<GraphicExample />} />
         </Routes>
     );
 }
