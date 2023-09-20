@@ -35,7 +35,7 @@ const Sidebar = () => {
                     return (
                         <li key={item.id}>
                             <Link to={item.path}>
-                                <span className="sm:justify-around"></span>
+                                <span className=""></span>
                                 <section>{item.title}</section>
                                 {item.icon}
                             </Link>

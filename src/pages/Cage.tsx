@@ -11,10 +11,18 @@ const Cage = () => {
     const [open, setOpen] = React.useState(false);
     const [cages, setCages] = React.useState<CageType[] | []>([]);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [mustReload, setMustReload] = React.useState(false);
 
     React.useEffect(() => {
         getAllCages();
     }, []);
+
+    React.useEffect(() => {
+        if (mustReload) {
+            getAllCages();
+            setMustReload(false);
+        }
+    }, [mustReload]);
 
     const getAllCages = async () => {
         try {
@@ -53,7 +61,11 @@ const Cage = () => {
                 Novo
             </Button>
             <CageWindow open={open} setOpen={setOpen} />
-            <CageTable cages={cages} isLoading={isLoading} />
+            <CageTable
+                cages={cages}
+                isLoading={isLoading}
+                setMustReload={setMustReload}
+            />
         </div>
     );
 };
