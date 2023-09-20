@@ -1,6 +1,6 @@
 import axios from 'axios';
 import '../css/GraphicExample.css';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import {
     XAxis,
     YAxis,
@@ -9,8 +9,9 @@ import {
     Legend,
     Bar,
     BarChart,
-    Brush,
+    Brush
 } from 'recharts';
+import { Button, TextField, Typography } from '@mui/material';
 
 export default function GraphicExample() {
     const [initialDate, setInitialDate] = useState('');
@@ -19,38 +20,38 @@ export default function GraphicExample() {
 
     async function getData() {
         try {
-            const response = await axios.get(`Turns/${initialDate}/${finalDate}`);
+            const response = await axios.get(
+                `Turns/${initialDate}/${finalDate}`
+            );
             setGraphData(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     }
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+    const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
         e.preventDefault();
         getData();
-    }
+    };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Initial Date:
-                    <input
-                        type="date"
-                        value={initialDate}
-                        onChange={(e) => setInitialDate(e.target.value)}
-                    />
-                </label>
-                <label>
-                    Final Date:
-                    <input
-                        type="date"
-                        value={finalDate}
-                        onChange={(e) => setFinalDate(e.target.value)}
-                    />
-                </label>
-                <button type="submit">Fetch Data</button>
+                <Typography>Data inicial:</Typography>
+                <TextField
+                    type="date"
+                    value={initialDate}
+                    onChange={(e) => setInitialDate(e.target.value)}
+                />
+                <Typography>Data final:</Typography>
+                <TextField
+                    type="date"
+                    value={finalDate}
+                    onChange={(e) => setFinalDate(e.target.value)}
+                />
+                <Button variant="contained" type="submit">
+                    Fetch Data
+                </Button>
             </form>
             <BarChart
                 width={700}
@@ -70,7 +71,7 @@ export default function GraphicExample() {
                 <Legend />
                 <Bar dataKey="distanciaPercorrida" fill="#8884d8" />
                 <Bar dataKey="velocidadeMedia" fill="#82ca9d" />
-                <Brush dataKey="data" height={30} stroke="#8884d8" /> {/* Enable brushing */}
+                <Brush dataKey="data" height={30} stroke="#8884d8" />{' '}
             </BarChart>
         </div>
     );
