@@ -22,7 +22,7 @@ interface CageWindoProps extends DialogProps {
 type Errors = {
     error: boolean;
     message: string;
-}
+};
 
 const CageWindow = ({ open, setOpen }: CageWindoProps) => {
     const { register, handleSubmit, reset } = useForm<Cage>();
@@ -36,19 +36,6 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
     });
 
     const handleCreateCage = async (cage: Cage) => {
-        if (parseInt(cage.diametro.toString()) <= 0) {
-            setErrorDiametro({
-                error: true,
-                message: 'O diâmetro deve ser maior que zero!'
-            });
-            return;
-        }
-
-        setErrorDiametro({
-            error: false,
-            message: ''
-        });
-
         if (!cage.descricao.length) {
             setErrorDescricao({
                 error: true,
@@ -62,8 +49,21 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
             message: ''
         });
 
+        if (!cage.diametro || parseInt(cage.diametro.toString()) <= 0) {
+            setErrorDiametro({
+                error: true,
+                message: 'O diâmetro deve ser maior que zero!'
+            });
+            return;
+        }
+
+        setErrorDiametro({
+            error: false,
+            message: ''
+        });
+
         try {
-            const reponse = await axios.post('Cage', cage);
+            await axios.post('Cage', cage);
             toast.success('Gaiola cadastrada com sucesso!');
             reset({
                 descricao: '',
@@ -111,11 +111,11 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
             <DialogActions>
                 <Button
                     variant="contained"
-                    color="error"
+                    color="primary"
                     onClick={() => handleClose()}
                     endIcon={<CloseIcon />}
                 >
-                    Cancelar
+                    Fechar
                 </Button>
                 <Button
                     variant="contained"

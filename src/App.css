@@ -1,0 +1,7 @@
+.app-body {
+    display: flex;
+    height: 100vh;
+}
+body {
+    max-height: 100vh;
+}

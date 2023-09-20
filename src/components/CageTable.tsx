@@ -7,33 +7,42 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Cage } from '../types/Cage';
-
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number
-) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9)
-];
+import { Typography } from '@mui/material';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 type CageTableProps = {
     cages: Cage[] | [];
+    isLoading: boolean;
 };
 
-const CageTable = ({ cages }: CageTableProps) => {
-    if (!cages.length!) {
-        return <div>Não há gaiolas cadastradas!</div>;
+const CageTable = ({ cages, isLoading }: CageTableProps) => {
+    if (isLoading)
+        return (
+            <Typography style={{ textAlign: 'center', marginTop: '10vh' }}>
+                Carregando...
+            </Typography>
+        );
+
+    if (!cages.length) {
+        return (
+            <Typography style={{ textAlign: 'center', marginTop: '10vh' }}>
+                Não há gaiolas cadastradas!
+            </Typography>
+        );
     }
+
+    const handleDeleteCage = async (id: number | undefined) => {
+        if (!id) return;
+        if (!window.confirm('Deseja realmente excluir essa gaiola?')) return;
+        try {
+            await axios.delete(`Cage/${id}`);
+
+            toast.success('Gaiola excluída com sucesso!');
+        } catch (error) {
+            toast.error('Erro ao excluir gaiola!');
+        }
+    };
 
     return (
         <TableContainer component={Paper}>
@@ -64,7 +73,9 @@ const CageTable = ({ cages }: CageTableProps) => {
                             </TableCell>
                             <TableCell align="right">{cage.diametro}</TableCell>
                             <TableCell align="right">
-                                <DeleteIcon />
+                                <div onClick={() => handleDeleteCage(cage.id)}>
+                                    <DeleteIcon color='error' style={{ cursor: 'pointer' }} />
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
