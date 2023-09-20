@@ -2,13 +2,3 @@
     font-family: sans-serif;
     text-align: center;
 }
-
-.GraphicExample .graphic {
-    display: inline-block;
-    width: 200px;
-    height: 200px;
-    background-color: #ccc;
-    border-radius: 50%;
-    margin: 20px;
-    position: relative;
-}
