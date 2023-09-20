@@ -5,6 +5,7 @@ import LoginScreen from './components/LoginScreen';
 import axios from 'axios';
 import Router from './Router';
 import { BrowserRouter } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
 
 function App() {
     const [authToken, setAuthToken] = useState(localStorage.getItem('@token'));
@@ -23,7 +24,11 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Router />
+            <section className="app-body">
+                <Sidebar />
+                <Toaster />
+                <Router />
+            </section>
         </BrowserRouter>
     );
 }
