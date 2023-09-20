@@ -1,67 +1,77 @@
+import axios from 'axios';
+import '../css/GraphicExample.css';
+import { useState } from 'react';
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
+    XAxis,
+    YAxis,
+    CartesianGrid,
     Tooltip,
-    Legend
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
+    Legend,
+    Bar,
+    BarChart,
+    Brush,
+} from 'recharts';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
-export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top' as const
-        },
-        title: {
-            display: true,
-            text: 'Chart.js Bar Chart'
-        }
-    }
-};
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Dataset 1',
-            data: labels.map(() =>
-                faker.datatype.number({ min: 0, max: 1000 })
-            ),
-            backgroundColor: 'rgba(255, 99, 132, 0.5)'
-        },
-        {
-            label: 'Dataset 2',
-            data: labels.map(() =>
-                faker.datatype.number({ min: 0, max: 1000 })
-            ),
-            backgroundColor: 'rgba(53, 162, 235, 0.5)'
-        }
-    ]
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function GraphicExample() {
-    return <Bar options={options} data={data}/>;
-}
+    const [initialDate, setInitialDate] = useState('');
+    const [finalDate, setFinalDate] = useState('');
+    const [graphData, setGraphData] = useState([]);
 
-const styles = {
-    graphic: {
-        width: '10px',
-        height: '10px'
+    async function getData() {
+        try {
+            const response = await axios.get(`Turns/${initialDate}/${finalDate}`);
+            setGraphData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
-};
+
+    const handleSubmit = (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        getData();
+    }
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Initial Date:
+                    <input
+                        type="date"
+                        value={initialDate}
+                        onChange={(e) => setInitialDate(e.target.value)}
+                    />
+                </label>
+                <label>
+                    Final Date:
+                    <input
+                        type="date"
+                        value={finalDate}
+                        onChange={(e) => setFinalDate(e.target.value)}
+                    />
+                </label>
+                <button type="submit">Fetch Data</button>
+            </form>
+            <BarChart
+                width={700}
+                height={400}
+                data={graphData}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="data" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="distanciaPercorrida" fill="#8884d8" />
+                <Bar dataKey="velocidadeMedia" fill="#82ca9d" />
+                <Brush dataKey="data" height={30} stroke="#8884d8" /> {/* Enable brushing */}
+            </BarChart>
+        </div>
+    );
+}
