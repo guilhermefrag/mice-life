@@ -6,6 +6,7 @@ import axios from 'axios';
 import Router from './Router';
 import { BrowserRouter } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
+import Header from './components/Header';
 
 function App() {
     const [authToken, setAuthToken] = useState(localStorage.getItem('@token'));
@@ -27,7 +28,10 @@ function App() {
             <section className="app-body">
                 <Sidebar />
                 <Toaster />
-                <Router />
+                <div className='container-route'>
+                    <Header />
+                    <Router />
+                </div>
             </section>
         </BrowserRouter>
     );

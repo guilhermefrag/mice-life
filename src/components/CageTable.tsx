@@ -14,9 +14,10 @@ import toast from 'react-hot-toast';
 type CageTableProps = {
     cages: Cage[] | [];
     isLoading: boolean;
+    setMustReload: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const CageTable = ({ cages, isLoading }: CageTableProps) => {
+const CageTable = ({ cages, isLoading, setMustReload }: CageTableProps) => {
     if (isLoading)
         return (
             <Typography style={{ textAlign: 'center', marginTop: '10vh' }}>
@@ -39,6 +40,8 @@ const CageTable = ({ cages, isLoading }: CageTableProps) => {
             await axios.delete(`Cage/${id}`);
 
             toast.success('Gaiola excluída com sucesso!');
+
+            setMustReload(true);
         } catch (error) {
             toast.error('Erro ao excluir gaiola!');
         }
@@ -74,7 +77,10 @@ const CageTable = ({ cages, isLoading }: CageTableProps) => {
                             <TableCell align="right">{cage.diametro}</TableCell>
                             <TableCell align="right">
                                 <div onClick={() => handleDeleteCage(cage.id)}>
-                                    <DeleteIcon color='error' style={{ cursor: 'pointer' }} />
+                                    <DeleteIcon
+                                        color="error"
+                                        style={{ cursor: 'pointer' }}
+                                    />
                                 </div>
                             </TableCell>
                         </TableRow>
