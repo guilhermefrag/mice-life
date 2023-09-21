@@ -1,27 +1,18 @@
 import React from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import SelectItems from '../types/SelectItems';
+import { SelectProps } from '@mui/material';
 
-type MenuItemProps = {
-    id: number;
-    value: string;
-};
-
-interface ISelectFieldProps {
-    data: MenuItemProps[];
-    label: string;
+interface ISelectFieldProps extends SelectProps {
+    data: SelectItems[];
+    label?: string;
 }
 
 function SelectField({ data, label }: ISelectFieldProps) {
-    const [value, setValue] = React.useState('');
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setValue(event.target.value);
-    };
-
     return (
-        <Select value={value} onChange={handleChange} label={label}>
-            {data.map((item: MenuItemProps) => (
+        <Select label={label}>
+            {data.map((item: SelectItems) => (
                 <MenuItem key={item.id} value={item.id}>
                     {item.value}
                 </MenuItem>

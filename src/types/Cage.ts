@@ -1,5 +1,5 @@
 export type Cage = {
-    id?: number;
+    id: number;
     diametro: number;
     descricao: string;
 };
