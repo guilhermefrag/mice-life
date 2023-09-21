@@ -26,7 +26,7 @@ function App() {
     return (
         <BrowserRouter>
             <section className="app-body">
-                <Sidebar />
+                <div className='container-sidebar'><Sidebar  /></div>
                 <Toaster />
                 <div className='container-route'>
                     <Header />

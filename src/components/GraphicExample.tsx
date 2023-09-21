@@ -36,23 +36,31 @@ export default function GraphicExample() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <Typography>Data inicial:</Typography>
-                <TextField
-                    type="date"
-                    value={initialDate}
-                    onChange={(e) => setInitialDate(e.target.value)}
-                />
-                <Typography>Data final:</Typography>
-                <TextField
-                    type="date"
-                    value={finalDate}
-                    onChange={(e) => setFinalDate(e.target.value)}
-                />
-                <Button variant="contained" type="submit">
-                    Fetch Data
-                </Button>
-            </form>
+            <div className='container-filtro'>
+                <div className='container-combo'>
+                    <h2>Roda 1</h2>
+                </div>
+
+                <div className='container-data'>
+                    <form onSubmit={handleSubmit}>
+                        <Typography>Periodo</Typography>
+                        <TextField
+                            type="date"
+                            value={initialDate}
+                            onChange={(e) => setInitialDate(e.target.value)}
+                        />
+                        {/* <Typography>Data final:</Typography> */}
+                        <TextField
+                            type="date"
+                            value={finalDate}
+                            onChange={(e) => setFinalDate(e.target.value)}
+                        />
+                        <Button variant="contained" type="submit">
+                            Pesquisar
+                        </Button>
+                    </form>
+                </div>
+            </div>
             <BarChart
                 width={700}
                 height={400}
