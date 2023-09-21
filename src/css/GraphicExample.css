@@ -5,6 +5,7 @@
 .container-filtro {
     display: flex;
     column-gap: 20%;
+    justify-content: center;
 }
 
 .container-data form {
