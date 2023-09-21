@@ -44,6 +44,7 @@ export default function LoginScreen({ setAuthToken }: LoginScreenProps) {
             toast.success('Login efetuado com sucesso!');
 
             localStorage.setItem('@token', token);
+            localStorage.setItem('@username', user.userName);
 
             setAuthToken(token);
 
