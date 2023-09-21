@@ -12,6 +12,7 @@ import {
     Brush
 } from 'recharts';
 import { Button, TextField, Typography } from '@mui/material';
+import CardInfo from './CardInfo';
 
 export default function GraphicExample() {
     const [initialDate, setInitialDate] = useState('');
@@ -36,6 +37,11 @@ export default function GraphicExample() {
 
     return (
         <div>
+            <div style={{ display: 'flex', gap: '5px' }}>
+                <CardInfo title="Distância percorrida" value="10 KM" />
+                <CardInfo title="Velocidade média" value="10 KM/H" />
+                <CardInfo title="Tempo total percorrido" value="1 Hora" />
+            </div>
             <form onSubmit={handleSubmit}>
                 <Typography>Data inicial:</Typography>
                 <TextField
