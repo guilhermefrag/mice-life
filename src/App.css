@@ -1,4 +1,23 @@
+body{
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
 .app-body {
     display: flex;
     height: 100vh;
+    background-color: #f4f4f4;
+    padding: 30px;
+}
+
+* {
+    font-family: roboto;
+}
+
+.container-route{
+    width: 85%;
+}
+.container-sidebar{
+    width: 15%;
 }

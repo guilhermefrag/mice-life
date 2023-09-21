@@ -10,6 +10,7 @@ import { Cage } from '../types/Cage';
 import { Typography } from '@mui/material';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import '../css/Cage.css';
 
 type CageTableProps = {
     cages: Cage[] | [];
@@ -48,7 +49,7 @@ const CageTable = ({ cages, isLoading, setMustReload }: CageTableProps) => {
     };
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} className='container-table'>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
