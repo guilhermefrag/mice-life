@@ -9,6 +9,7 @@ body{
     height: 100vh;
     background-color: #f4f4f4;
     padding: 30px;
+    column-gap: 30px;
 }
 
 * {
