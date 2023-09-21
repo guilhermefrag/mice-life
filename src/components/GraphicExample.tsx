@@ -29,6 +29,10 @@ export default function GraphicExample() {
     const [graphData, setGraphData] = useState([]);
     const [selectCages, setSelectCages] = useState<SelectItems[]>([]);
     const [cageId, setCageId] = useState<string>();
+    const [distanciaPercorrida, setDistanciaPercorrida] = useState<string>('');
+    const [velocidadeMedia, setVelocidadeMedia] = useState<string>('');
+    const [tempoTotalPercorrido, setTempoTotalPercorrido] =
+        useState<string>('');
 
     React.useEffect(() => {
         getAllCages();
@@ -40,12 +44,14 @@ export default function GraphicExample() {
                 toast.error('Preencha todos os campos para filtrar!');
                 return;
             }
-            const response = await axios.post(`Turns/${cageId}/`, {
-                dataI: initialDate,
-                dataE: finalDate
-            });
+            const response = await axios.get(
+                `Turns/DashBoard/${cageId}?dataI=${initialDate}&dataE=${finalDate}`
+            );
 
             setGraphData(response.data.medias);
+            setDistanciaPercorrida(response.data.distanciaPercorridaTotal);
+            setVelocidadeMedia(response.data.velocidadeTotal);
+            setTempoTotalPercorrido(response.data.tempoDeAtividadeTotal);
             toast.success('Gaiolas filtradas com sucesso!');
         } catch (error) {
             toast.error('Não foram encontrados dados para o filtro!');
@@ -82,22 +88,32 @@ export default function GraphicExample() {
     return (
         <div style={{ width: '100%', height: '60vh' }}>
             <div className="container-cards">
-                <CardInfo title="Distância percorrida" value="10 KM" />
-                <CardInfo title="Velocidade média" value="10 KM/H" />
-                <CardInfo title="Tempo total percorrido" value="1 Hora" />
+                <CardInfo
+                    title="Distância percorrida"
+                    value={distanciaPercorrida}
+                />
+                <CardInfo title="Velocidade média" value={velocidadeMedia} />
+                <CardInfo
+                    title="Tempo total percorrido"
+                    value={tempoTotalPercorrido}
+                />
             </div>
             <div className="container-filtro">
                 <div className="container-data">
                     <form onSubmit={handleSubmit}>
                         <Typography>Gaiola</Typography>
-                        <Select onChange={handleChange}>
+                        <Select
+                            disabled={!selectCages.length}
+                            onChange={handleChange}
+                            value={cageId || ''}
+                        >
                             {selectCages.map((item: SelectItems) => (
                                 <MenuItem key={item.id} value={item.id}>
                                     {item.value}
                                 </MenuItem>
                             ))}
                         </Select>
-                        <Typography>Periodo</Typography>
+                        <Typography>Data inicial</Typography>
                         <TextField
                             type="date"
                             value={initialDate}
@@ -122,8 +138,6 @@ export default function GraphicExample() {
             </div>
             <ResponsiveContainer width="100%">
                 <BarChart
-                    width={900}
-                    height={400}
                     data={graphData}
                     margin={{
                         top: 5,
@@ -139,7 +153,7 @@ export default function GraphicExample() {
                     <Legend />
                     <Bar dataKey="distanciaPercorrida" fill="#8884d8" />
                     <Bar dataKey="velocidadeMedia" fill="#82ca9d" />
-                    <Brush dataKey="data" height={30} stroke="#8884d8" />{' '}
+                    <Brush dataKey="data" height={30} stroke="#8884d8" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
