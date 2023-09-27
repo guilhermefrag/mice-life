@@ -52,7 +52,7 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
         if (!cage.diametro || parseInt(cage.diametro.toString()) <= 0) {
             setErrorDiametro({
                 error: true,
-                message: 'O diâmetro deve ser maior que zero!'
+                message: 'O diâmetro da roda deve ser maior que zero!'
             });
             return;
         }
@@ -98,7 +98,7 @@ const CageWindow = ({ open, setOpen }: CageWindoProps) => {
                 />
                 <TextField
                     autoFocus
-                    label="Diâmetro (cm)"
+                    label="Diâmetro da roda (cm)"
                     type="number"
                     fullWidth
                     error={errorDiametro.error}
