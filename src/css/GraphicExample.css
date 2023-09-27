@@ -1,86 +1,85 @@
 .GraphicExample {
     text-align: center;
-    }
-    
-    
-    .container-filtro {
+}
+
+
+.container-filtro {
     display: flex;
     column-gap: 20%;
     margin-bottom: 25px;
-    }
-    
-    
-    .container-data form {
+}
+
+
+.container-data form {
     display: flex;
     align-items: center;
     column-gap: 40px;
-    }
-    
-    
-    .container-data form .container-data-filtro {
+}
+
+
+.container-data form .container-data-filtro {
     display: flex;
     column-gap: 10px;
     align-items: center;
-    }
-    
-    
-    .container-data form .container-data-filtro .MuiSelect-select {
+}
+
+
+.container-data form .container-data-filtro .MuiSelect-select {
     min-width: 60px;
-    }
-    
-    
-    .container-data form p {
+}
+
+
+.container-data form p {
     color: #000;
     font-size: 22px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.224px;
-    }
-    
-    
-    .container-cards {
+}
+
+
+.container-cards {
     display: flex;
     gap: 5px;
     margin-bottom: 30px;
     padding: 40px 45px;
     column-gap: 30px;
     width: fit-content;
-    
-    
+
+
     border-radius: 20px;
     border: 2px solid #ECEEF6;
     background: #FFF;
     box-shadow: 0px 20px 50px 0px rgba(220, 224, 249, 0.50);
-    }
-    
-    
-    .container-cards .MuiPaper-root {
+}
+
+
+.container-cards .MuiPaper-root {
     border-right: 2px solid #ECEEF6;
     box-shadow: none;
-    }
-    
-    
-    .container-cards .MuiTypography-root {
+}
+
+
+.container-cards .MuiTypography-root {
     color: #000;
     font-size: 16px;
-    }
-    
-    
-    .container-cards p.MuiTypography-root {
+}
+
+
+.container-cards p.MuiTypography-root {
     color: #1A2B88;
     font-size: 28px;
     font-weight: 700;
-    }
-    
-    
-    .container-cards .MuiPaper-root:last-child {
+}
+
+
+.container-cards .MuiPaper-root:last-child {
     border-right: none;
-    }
-    
-    
-    .graphic-container {
+}
+
+
+.graphic-container {
     border-left: 1px solid;
-    }
-    
-    
+    max-height: 55vh !important;
+}

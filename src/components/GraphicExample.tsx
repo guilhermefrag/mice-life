@@ -180,7 +180,7 @@ export default function GraphicExample() {
                     value={tempoTotalPercorrido}
                 />
             </div>
-            <ResponsiveContainer width="100%" maxHeight={500} className="graphic-container">
+            <ResponsiveContainer width="100%" className="graphic-container">
                 <BarChart
                     data={graphData}
                     margin={{
