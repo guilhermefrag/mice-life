@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import * as XLSX from 'xlsx';
 import '../css/GraphicExample.css';
 import { SyntheticEvent, useState } from 'react';
 import {
@@ -17,25 +16,15 @@ import {
 import { Button, TextField, Typography } from '@mui/material';
 import CardInfo from './CardInfo';
 import SearchIcon from '@mui/icons-material/Search';
-import DownloadIcon from '@mui/icons-material/Download';
 import { Cage } from '../types/Cage';
 import SelectItems from '../types/SelectItems';
 import { ReactNode } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import * as XLSX from 'xlsx';
+import DownloadIcon from '@mui/icons-material/Download';
 
 import MenuItem from '@mui/material/MenuItem';
 import toast from 'react-hot-toast';
-
-interface GraphData {
-    data: string;
-    descricao: string;
-    distanciaPercorrida: number;
-    gaiolaId: number;
-    quantidadedeVoltas: number;
-    tempoDeAtividade: number;
-    velocidadeMedia: number;
-}
-
 export default function GraphicExample() {
     const [initialDate, setInitialDate] = useState('');
     const [finalDate, setFinalDate] = useState('');
@@ -47,9 +36,11 @@ export default function GraphicExample() {
     const [tempoTotalPercorrido, setTempoTotalPercorrido] =
         useState<string>('');
 
+
     React.useEffect(() => {
         getAllCages();
     }, []);
+
 
     async function getData() {
         try {
@@ -61,6 +52,7 @@ export default function GraphicExample() {
                 `Turns/DashBoard/${cageId}?dataI=${initialDate}&dataE=${finalDate}`
             );
 
+
             setGraphData(response.data.medias);
             setDistanciaPercorrida(response.data.distanciaPercorridaTotal);
             setVelocidadeMedia(response.data.velocidadeTotal);
@@ -71,9 +63,36 @@ export default function GraphicExample() {
         }
     }
 
+
     const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
         e.preventDefault();
         getData();
+    };
+
+
+    const getAllCages = async () => {
+        try {
+            const response = await axios.get<Cage[]>('Cage');
+
+
+            const data = response.data.map((cage: Cage) => ({
+                id: cage.id,
+                value: cage.descricao
+            }));
+
+
+            setSelectCages(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+    const handleChange = (
+        event: SelectChangeEvent<unknown>,
+        child: ReactNode
+    ) => {
+        setCageId(event.target.value as string);
     };
 
     const handleDownloadToXLSX = () => {
@@ -93,30 +112,63 @@ export default function GraphicExample() {
         }
     };
 
-    const getAllCages = async () => {
-        try {
-            const response = await axios.get<Cage[]>('Cage');
-
-            const data = response.data.map((cage: Cage) => ({
-                id: cage.id,
-                value: cage.descricao
-            }));
-
-            setSelectCages(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleChange = (
-        event: SelectChangeEvent<unknown>,
-        child: ReactNode
-    ) => {
-        setCageId(event.target.value as string);
-    };
-
     return (
         <div style={{ width: '100%', height: '60vh' }}>
+            <div className="container-filtro">
+                <div className="container-data">
+                    <form onSubmit={handleSubmit}>
+                        <div className='container-data-filtro'>
+                            <Typography>Gaiola</Typography>
+                            <Select
+                                disabled={!selectCages.length}
+                                onChange={handleChange}
+                                value={cageId || ''}
+                            >
+                                {selectCages.map((item: SelectItems) => (
+                                    <MenuItem key={item.id} value={item.id}>
+                                        {item.value}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </div>
+                        <div className='container-data-filtro'>
+                            <Typography>Data inicial</Typography>
+                            <TextField
+                                type="date"
+                                value={initialDate}
+                                onChange={(e) => setInitialDate(e.target.value)}
+                            />
+                        </div>
+                        <div className='container-data-filtro'>
+                            <Typography>Data final:</Typography>
+                            <TextField
+                                type="date"
+                                value={finalDate}
+                                onChange={(e) => setFinalDate(e.target.value)}
+                            />
+                        </div>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            type="submit"
+                            endIcon={<SearchIcon />}
+                        >
+                            Pesquisar
+                        </Button>
+                        <Button
+                variant="contained"
+                disabled={!graphData.length}
+                size="large"
+                type="submit"
+                color='success'
+                onClick={handleDownloadToXLSX}
+                endIcon={<DownloadIcon />}
+            >
+                Download xlsx
+            </Button>
+                    </form>
+                </div>
+            </div>
             <div className="container-cards">
                 <CardInfo
                     title="Distância percorrida"
@@ -128,45 +180,7 @@ export default function GraphicExample() {
                     value={tempoTotalPercorrido}
                 />
             </div>
-            <div className="container-filtro">
-                <div className="container-data">
-                    <form onSubmit={handleSubmit}>
-                        <Typography>Gaiola</Typography>
-                        <Select
-                            disabled={!selectCages.length}
-                            onChange={handleChange}
-                            value={cageId || ''}
-                        >
-                            {selectCages.map((item: SelectItems) => (
-                                <MenuItem key={item.id} value={item.id}>
-                                    {item.value}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <Typography>Data inicial</Typography>
-                        <TextField
-                            type="date"
-                            value={initialDate}
-                            onChange={(e) => setInitialDate(e.target.value)}
-                        />
-                        <Typography>Data final:</Typography>
-                        <TextField
-                            type="date"
-                            value={finalDate}
-                            onChange={(e) => setFinalDate(e.target.value)}
-                        />
-                        <Button
-                            variant="contained"
-                            size="large"
-                            type="submit"
-                            endIcon={<SearchIcon />}
-                        >
-                            Pesquisar
-                        </Button>
-                    </form>
-                </div>
-            </div>
-            <ResponsiveContainer width="100%">
+            <ResponsiveContainer width="100%" maxHeight={500} className="graphic-container">
                 <BarChart
                     data={graphData}
                     margin={{
@@ -186,16 +200,9 @@ export default function GraphicExample() {
                     <Brush dataKey="data" height={30} stroke="#8884d8" />
                 </BarChart>
             </ResponsiveContainer>
-            <Button
-                variant="contained"
-                disabled={!graphData.length}
-                size="large"
-                type="submit"
-                onClick={handleDownloadToXLSX}
-                endIcon={<DownloadIcon />}
-            >
-                Download xlsx
-            </Button>
         </div>
     );
 }
+
+
+
