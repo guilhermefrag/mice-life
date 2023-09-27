@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
 import '../css/GraphicExample.css';
 import { SyntheticEvent, useState } from 'react';
 import {
@@ -16,6 +17,7 @@ import {
 import { Button, TextField, Typography } from '@mui/material';
 import CardInfo from './CardInfo';
 import SearchIcon from '@mui/icons-material/Search';
+import DownloadIcon from '@mui/icons-material/Download';
 import { Cage } from '../types/Cage';
 import SelectItems from '../types/SelectItems';
 import { ReactNode } from 'react';
@@ -23,6 +25,17 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import MenuItem from '@mui/material/MenuItem';
 import toast from 'react-hot-toast';
+
+interface GraphData {
+    data: string;
+    descricao: string;
+    distanciaPercorrida: number;
+    gaiolaId: number;
+    quantidadedeVoltas: number;
+    tempoDeAtividade: number;
+    velocidadeMedia: number;
+}
+
 export default function GraphicExample() {
     const [initialDate, setInitialDate] = useState('');
     const [finalDate, setFinalDate] = useState('');
@@ -61,6 +74,23 @@ export default function GraphicExample() {
     const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
         e.preventDefault();
         getData();
+    };
+
+    const handleDownloadToXLSX = () => {
+        try {
+            if (!graphData.length) {
+                toast.error('Não há dados para exportar!');
+            }
+            const ws = XLSX.utils.json_to_sheet(graphData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Dados do Gráfico');
+
+            const filename = `dados_grafico_${Date.now()}.xlsx`;
+
+            XLSX.writeFile(wb, filename);
+        } catch (error) {
+            toast.error('Erro ao exportar dados!');
+        }
     };
 
     const getAllCages = async () => {
@@ -156,6 +186,16 @@ export default function GraphicExample() {
                     <Brush dataKey="data" height={30} stroke="#8884d8" />
                 </BarChart>
             </ResponsiveContainer>
+            <Button
+                variant="contained"
+                disabled={!graphData.length}
+                size="large"
+                type="submit"
+                onClick={handleDownloadToXLSX}
+                endIcon={<DownloadIcon />}
+            >
+                Download xlsx
+            </Button>
         </div>
     );
 }
