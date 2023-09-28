@@ -26,8 +26,9 @@ import DownloadIcon from '@mui/icons-material/Download';
 import MenuItem from '@mui/material/MenuItem';
 import toast from 'react-hot-toast';
 export default function GraphicExample() {
-    const [initialDate, setInitialDate] = useState('');
-    const [finalDate, setFinalDate] = useState('');
+    const formattedToday = new Date().toISOString().split('T')[0];
+    const [initialDate, setInitialDate] = useState(formattedToday);
+    const [finalDate, setFinalDate] = useState(formattedToday);
     const [graphData, setGraphData] = useState([]);
     const [selectCages, setSelectCages] = useState<SelectItems[]>([]);
     const [cageId, setCageId] = useState<string>();
@@ -35,7 +36,6 @@ export default function GraphicExample() {
     const [velocidadeMedia, setVelocidadeMedia] = useState<string>('');
     const [tempoTotalPercorrido, setTempoTotalPercorrido] =
         useState<string>('');
-
 
     React.useEffect(() => {
         getAllCages();
@@ -51,7 +51,6 @@ export default function GraphicExample() {
             const response = await axios.get(
                 `Turns/DashBoard/${cageId}?dataI=${initialDate}&dataE=${finalDate}`
             );
-
 
             setGraphData(response.data.medias);
             setDistanciaPercorrida(response.data.distanciaPercorridaTotal);
@@ -74,14 +73,13 @@ export default function GraphicExample() {
         try {
             const response = await axios.get<Cage[]>('Cage');
 
-
             const data = response.data.map((cage: Cage) => ({
                 id: cage.id,
                 value: cage.descricao
             }));
 
-
             setSelectCages(data);
+            setCageId(data[0].id.toString());
         } catch (error) {
             console.log(error);
         }
@@ -172,12 +170,12 @@ export default function GraphicExample() {
             <div className="container-cards">
                 <CardInfo
                     title="Distância percorrida"
-                    value={distanciaPercorrida}
+                    value={`${distanciaPercorrida} metros`}
                 />
-                <CardInfo title="Velocidade média" value={velocidadeMedia} />
+                <CardInfo title="Velocidade média" value={`${velocidadeMedia} km/h`} />
                 <CardInfo
                     title="Tempo total percorrido"
-                    value={tempoTotalPercorrido}
+                    value={`${tempoTotalPercorrido} segundos`}
                 />
             </div>
             <ResponsiveContainer width="100%" className="graphic-container">
