@@ -4,6 +4,7 @@ import Rato from '../img/rato.jpg';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import AttractionsIcon from '@mui/icons-material/Attractions';
 import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 type SidebarDataProps = {
     id: number;
     title: string;
@@ -29,21 +30,31 @@ const SidebarData: SidebarDataProps[] = [
 const Sidebar = () => {
     return (
         <aside className="sidebar">
+            <div>
             <img src={Rato} className="img-logo" />
             <ul className="lista-sidebar">
                 {SidebarData.map((item) => {
                     return (
-                        <li key={item.id} className='escolha-menu'>
+                        <li key={item.id} className="escolha-menu">
                             <Link to={item.path}>
                                 {item.icon}
                                 <div>
-                                    <span className="nome-menu">{item.title}</span>
+                                    <span className="nome-menu">
+                                        {item.title}
+                                    </span>
                                 </div>
                             </Link>
                         </li>
                     );
                 })}
             </ul>
+            </div>
+            <Button variant="contained" color="error" className='btn-sair' onClick={() => {
+                localStorage.clear();
+                window.location.reload();
+            }}>
+                Sair
+            </Button>
         </aside>
     );
 };

@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 90vh;
     align-items: center;
+    justify-content: space-between;
 }
 
 .img-logo {
@@ -62,4 +63,8 @@
     text-decoration: none;
     align-items: center;
     padding: 18px 30px;
+}
+
+.btn-sair{
+    width: 15vw;
 }

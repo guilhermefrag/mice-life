@@ -12,8 +12,8 @@ function App() {
     const [authToken, setAuthToken] = useState(localStorage.getItem('@token'));
 
     axios.defaults.headers.common['Authorization'] = authToken;
-    axios.defaults.baseURL =
-        'https://projetointegradorr.azurewebsites.net/api/';
+    axios.defaults.baseURL = 'http://172.22.44.76:8080/api/';
+    // 'https://projetointegradorr.azurewebsites.net/api/';
 
     if (!authToken?.length) {
         return (
@@ -26,9 +26,11 @@ function App() {
     return (
         <BrowserRouter>
             <section className="app-body">
-                <div className='container-sidebar'><Sidebar  /></div>
+                <div className="container-sidebar">
+                    <Sidebar />
+                </div>
                 <Toaster />
-                <div className='container-route'>
+                <div className="container-route">
                     <Header />
                     <Router />
                 </div>
