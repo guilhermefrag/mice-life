@@ -13,7 +13,7 @@
 .container-data form {
     display: flex;
     align-items: center;
-    column-gap: 40px;
+    column-gap: 26px;
 }
 
 
@@ -31,7 +31,7 @@
 
 .container-data form p {
     color: #000;
-    font-size: 22px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -43,7 +43,7 @@
     display: flex;
     gap: 5px;
     margin-bottom: 30px;
-    padding: 40px 45px;
+    padding: 20px 25px;
     column-gap: 30px;
     width: fit-content;
 
@@ -82,4 +82,20 @@
 .graphic-container {
     border-left: 1px solid;
     max-height: 55vh !important;
+}
+
+.container-data form .MuiOutlinedInput-input {
+    padding: 10px 5px;
+}
+
+@media screen and (max-width: 1024px) {
+    .container-data form p {
+        color: #000;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 0.224px;
+    }
+
 }
