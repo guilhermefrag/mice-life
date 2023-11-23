@@ -6,6 +6,7 @@ import CageWindow from '../components/CageWindow';
 import axios from 'axios';
 import { Cage as CageType } from '../types/Cage';
 import SearchIcon from '@mui/icons-material/Search';
+import WarningMessage from '../components/WarningMessage';
 
 const Cage = () => {
     const [open, setOpen] = React.useState(false);
@@ -37,35 +38,43 @@ const Cage = () => {
         }
     };
 
+    //Fazer a parte do if no warning message
     return (
-        <div style={{ flex: 1 }}>
-            <Button
-                variant="contained"
-                type="submit"
-                style={{ background: '#b9b9b9f7' }}
-                size="large"
-                onClick={() => getAllCages()}
-                endIcon={<SearchIcon />}
-            >
-                Pesquisar
-            </Button>
-            &nbsp;
-            <Button
-                variant="contained"
-                type="submit"
-                style={{ background: '#b9b9b9f7' }}
-                size="large"
-                onClick={() => setOpen(true)}
-                endIcon={<AddIcon />}
-            >
-                Novo
-            </Button>
-            <CageWindow open={open} setOpen={setOpen} />
-            <CageTable
-                cages={cages}
-                isLoading={isLoading}
-                setMustReload={setMustReload}
-            />
+        <div
+            style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+        >
+            <div style={{ marginBottom: '16px' }}>
+                <WarningMessage />
+            </div>
+            <div style={{ flex: 1 }}>
+                <Button
+                    variant="contained"
+                    type="submit"
+                    style={{ background: '#b9b9b9f7' }}
+                    size="large"
+                    onClick={() => getAllCages()}
+                    endIcon={<SearchIcon />}
+                >
+                    Pesquisar
+                </Button>
+                &nbsp;
+                <Button
+                    variant="contained"
+                    type="submit"
+                    style={{ background: '#b9b9b9f7' }}
+                    size="large"
+                    onClick={() => setOpen(true)}
+                    endIcon={<AddIcon />}
+                >
+                    Novo
+                </Button>
+                <CageWindow open={open} setOpen={setOpen} />
+                <CageTable
+                    cages={cages}
+                    isLoading={isLoading}
+                    setMustReload={setMustReload}
+                />
+            </div>
         </div>
     );
 };

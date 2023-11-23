@@ -41,7 +41,6 @@ export default function GraphicExample() {
         getAllCages();
     }, []);
 
-
     async function getData() {
         try {
             if (!cageId || !initialDate || !finalDate) {
@@ -62,12 +61,10 @@ export default function GraphicExample() {
         }
     }
 
-
     const handleSubmit = (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
         e.preventDefault();
         getData();
     };
-
 
     const getAllCages = async () => {
         try {
@@ -84,7 +81,6 @@ export default function GraphicExample() {
             console.log(error);
         }
     };
-
 
     const handleChange = (
         event: SelectChangeEvent<unknown>,
@@ -115,7 +111,7 @@ export default function GraphicExample() {
             <div className="container-filtro">
                 <div className="container-data">
                     <form onSubmit={handleSubmit}>
-                        <div className='container-data-filtro'>
+                        <div className="container-data-filtro">
                             <Typography>Gaiola</Typography>
                             <Select
                                 disabled={!selectCages.length}
@@ -129,7 +125,7 @@ export default function GraphicExample() {
                                 ))}
                             </Select>
                         </div>
-                        <div className='container-data-filtro'>
+                        <div className="container-data-filtro">
                             <Typography>Data inicial</Typography>
                             <TextField
                                 type="date"
@@ -137,7 +133,7 @@ export default function GraphicExample() {
                                 onChange={(e) => setInitialDate(e.target.value)}
                             />
                         </div>
-                        <div className='container-data-filtro'>
+                        <div className="container-data-filtro">
                             <Typography>Data final:</Typography>
                             <TextField
                                 type="date"
@@ -154,16 +150,16 @@ export default function GraphicExample() {
                             Pesquisar
                         </Button>
                         <Button
-                variant="contained"
-                disabled={!graphData.length}
-                size="large"
-                type="submit"
-                color='success'
-                onClick={handleDownloadToXLSX}
-                endIcon={<DownloadIcon />}
-            >
-                Download xlsx
-            </Button>
+                            variant="contained"
+                            disabled={!graphData.length}
+                            size="large"
+                            type="submit"
+                            color="success"
+                            onClick={handleDownloadToXLSX}
+                            endIcon={<DownloadIcon />}
+                        >
+                            Download xlsx
+                        </Button>
                     </form>
                 </div>
             </div>
@@ -172,7 +168,10 @@ export default function GraphicExample() {
                     title="Distância percorrida"
                     value={`${distanciaPercorrida} metros`}
                 />
-                <CardInfo title="Velocidade média" value={`${velocidadeMedia} km/h`} />
+                <CardInfo
+                    title="Velocidade média"
+                    value={`${velocidadeMedia} km/h`}
+                />
                 <CardInfo
                     title="Tempo total percorrido"
                     value={`${tempoTotalPercorrido} segundos`}
@@ -201,6 +200,3 @@ export default function GraphicExample() {
         </div>
     );
 }
-
-
-
