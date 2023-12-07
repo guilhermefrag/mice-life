@@ -12,7 +12,7 @@ function App() {
     const [authToken, setAuthToken] = useState(localStorage.getItem('@token'));
 
     axios.defaults.headers.common['Authorization'] = authToken;
-    axios.defaults.baseURL = 'http://172.22.44.76:8080/api/';
+    axios.defaults.baseURL = 'http://localhost:80/api/';
     // 'https://projetointegradorr.azurewebsites.net/api/';
 
     if (!authToken?.length) {
